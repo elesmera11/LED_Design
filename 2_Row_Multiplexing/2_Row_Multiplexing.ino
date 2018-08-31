@@ -80,49 +80,4 @@ void loop() {
     LEDControl((int)distanceAve); // Turn on the LED's
   }
   
-  
-//  digitalWrite(DIG_PIN_0, LOW);
-//  digitalWrite(DIG_PIN_1, LOW);
-//  digitalWrite(DIG_PIN_2, LOW);
-//  digitalWrite(DIG_PIN_3, LOW);
-//  digitalWrite(DIG_PIN_4, HIGH);
-//  
-//  analogWrite(ANA_PIN_0, LOW);
-//  analogWrite(ANA_PIN_1, LOW);
-//  analogWrite(ANA_PIN_2, ANA_HIGH);
-//  analogWrite(ANA_PIN_3, ANA_HIGH);
-//  analogWrite(ANA_PIN_4, ANA_HIGH);
-  
-  /*
-  analogWrite(ANA_PIN_0, LOW);
-  analogWrite(ANA_PIN_1, ANA_HIGH);
-  analogWrite(ANA_PIN_2, LOW);
-  analogWrite(ANA_PIN_3, ANA_HIGH);
-  analogWrite(ANA_PIN_4, ANA_HIGH);
-  delay(500);
-  analogWrite(ANA_PIN_0, ANA_HIGH);
-  analogWrite(ANA_PIN_1, LOW);
-  analogWrite(ANA_PIN_2, LOW);
-  analogWrite(ANA_PIN_3, ANA_HIGH);
-  analogWrite(ANA_PIN_4, ANA_HIGH);
-  delay(500);
-  analogWrite(ANA_PIN_0, ANA_HIGH);
-  analogWrite(ANA_PIN_1, ANA_HIGH);
-  analogWrite(ANA_PIN_2, LOW);
-  analogWrite(ANA_PIN_3, ANA_HIGH);
-  analogWrite(ANA_PIN_4, ANA_HIGH);
-  delay(500);
-  analogWrite(ANA_PIN_0, ANA_HIGH);
-  analogWrite(ANA_PIN_1, ANA_HIGH);
-  analogWrite(ANA_PIN_2, LOW);
-  analogWrite(ANA_PIN_3, LOW);
-  analogWrite(ANA_PIN_4, ANA_HIGH);
-  delay(500);
-  analogWrite(ANA_PIN_0, ANA_HIGH);
-  analogWrite(ANA_PIN_1, ANA_HIGH);
-  analogWrite(ANA_PIN_2, LOW);
-  analogWrite(ANA_PIN_3, ANA_HIGH);
-  analogWrite(ANA_PIN_4, LOW);
-  delay(500);*/
-  
 }
