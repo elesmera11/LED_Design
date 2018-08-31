@@ -1,26 +1,10 @@
-// Pin definitions
-#define DIG_PIN_0 2
-#define DIG_PIN_1 3
-#define DIG_PIN_2 4
-#define DIG_PIN_3 5
-#define DIG_PIN_4 6
-
-#define ANA_PIN_0 A0
-#define ANA_PIN_1 A1
-#define ANA_PIN_2 A2
-#define ANA_PIN_3 A3
-#define ANA_PIN_4 A4
-
-#define TRIG_PIN_1 8
-#define ECHO_PIN_1 9
-#define TRIG_PIN_2 10
-#define ECHO_PIN_2 11
+#include "pins.h"
+#include "distance_LEDs.h"
 
 // Constants
+#define ECHO_TIMEOUT 50000 //50ms
 #define ANA_HIGH 255
-#define MAX_DISTANCE 300
-#define BUFF_SIZE 10
-
+#define BUFF_SIZE 5
   
 void setup() {
   pinMode(TRIG_PIN_1, OUTPUT); // Sets the TRIG_PIN_ as an Output
@@ -41,6 +25,7 @@ void setup() {
 }
 
 // Read the distance from the ultrasonic sensor
+// Note that sensor 1 is for x-distance, sensor 2 is for y-distance.
 int readDistance() {
   // Clears the trigPin
   digitalWrite(TRIG_PIN_1, LOW);
@@ -48,13 +33,13 @@ int readDistance() {
   
   // Sets the trigPin on HIGH state for 50 milli seconds
   digitalWrite(TRIG_PIN_1, HIGH);
-  delay(50);
+  delay(20);
   digitalWrite(TRIG_PIN_1, LOW);
   
   // Reads the echoPin, returns the sound wave travel time in microseconds
-  unsigned long duration = pulseIn(ECHO_PIN_1, HIGH);
+  unsigned long duration = pulseIn(ECHO_PIN_1, HIGH, ECHO_TIMEOUT);
   
-  // Calculating the distance
+  // Calculating the distance in cm
   float distance = duration*0.034/2;
   return distance;
 }
@@ -79,74 +64,31 @@ int calcDistanceAve () {
     distanceSum += distanceBuffer[i];
   }
   distanceAve = distanceSum / BUFF_SIZE;
+  if (distanceAve > MAX_DISTANCE + 2 || distanceAve < MIN_DISTANCE - 2) {
+    distanceAve = 0; //if object out of range, reset to zero. 
+  }
   Serial.print("Ave Distance: ");
   Serial.println(round(distanceAve));
   return distanceAve;
 }
 
-// Turning on and off the LED's as a function of distance from the distance sensor
-void LEDControl (int distance) {
-  /*
-  digitalWrite(DIG_PIN_0, HIGH);
-  digitalWrite(DIG_PIN_1, LOW);
-  digitalWrite(DIG_PIN_2, LOW);
-  digitalWrite(DIG_PIN_3, LOW);
-  digitalWrite(DIG_PIN_4, LOW);
-  
-  analogWrite(ANA_PIN_0, ANA_HIGH);
-  analogWrite(ANA_PIN_1, ANA_HIGH);
-  analogWrite(ANA_PIN_2, ANA_HIGH);
-  analogWrite(ANA_PIN_3, ANA_HIGH);
-  analogWrite(ANA_PIN_4, ANA_HIGH);*/
-  
- 
-  
-  /*
-  else if (distance < 60 && distance > 46) {
-    analogWrite(ANA_PIN_1, LOW);
-    analogWrite(ANA_PIN_0, ANA_HIGH);
-    analogWrite(ANA_PIN_2, ANA_HIGH);
-    analogWrite(ANA_PIN_3, ANA_HIGH);
-    analogWrite(ANA_PIN_4, ANA_HIGH);  
-  }
-  else if (distance < 45 && distance > 31) {
-    analogWrite(ANA_PIN_2, LOW);
-    analogWrite(ANA_PIN_0, ANA_HIGH);
-    analogWrite(ANA_PIN_1, ANA_HIGH);
-    analogWrite(ANA_PIN_3, ANA_HIGH);
-    analogWrite(ANA_PIN_4, ANA_HIGH);
-  }
-  else if (distance < 30 && distance > 16) {
-    analogWrite(ANA_PIN_3, LOW);
-    analogWrite(ANA_PIN_0, ANA_HIGH);
-    analogWrite(ANA_PIN_1, ANA_HIGH);
-    analogWrite(ANA_PIN_2, ANA_HIGH);
-    analogWrite(ANA_PIN_4, ANA_HIGH);
-  }
-  else if (distance < 15 && distance > 0) {
-    analogWrite(ANA_PIN_4, LOW);
-    analogWrite(ANA_PIN_0, ANA_HIGH);
-    analogWrite(ANA_PIN_1, ANA_HIGH);
-    analogWrite(ANA_PIN_2, ANA_HIGH);
-    analogWrite(ANA_PIN_3, ANA_HIGH);
-  }*/
-}
-
-
 void loop() {
   
   int distanceAve = 0;
   distanceAve = calcDistanceAve();
-  //LEDControl(distanceAve); // Turn on the LED's
+  if (distanceAve != 0) {
+    LEDControl((int)distanceAve); // Turn on the LED's
+  }
   
-//  digitalWrite(DIG_PIN_0, HIGH);
-//  digitalWrite(DIG_PIN_1, HIGH);
-//  digitalWrite(DIG_PIN_2, HIGH);
-//  digitalWrite(DIG_PIN_3, HIGH);
+  
+//  digitalWrite(DIG_PIN_0, LOW);
+//  digitalWrite(DIG_PIN_1, LOW);
+//  digitalWrite(DIG_PIN_2, LOW);
+//  digitalWrite(DIG_PIN_3, LOW);
 //  digitalWrite(DIG_PIN_4, HIGH);
 //  
-//  analogWrite(ANA_PIN_0, ANA_HIGH);
-//  analogWrite(ANA_PIN_1, ANA_HIGH);
+//  analogWrite(ANA_PIN_0, LOW);
+//  analogWrite(ANA_PIN_1, LOW);
 //  analogWrite(ANA_PIN_2, ANA_HIGH);
 //  analogWrite(ANA_PIN_3, ANA_HIGH);
 //  analogWrite(ANA_PIN_4, ANA_HIGH);
