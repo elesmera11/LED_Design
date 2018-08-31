@@ -79,5 +79,4 @@ void loop() {
   if (distanceAve != 0) {
     LEDControl((int)distanceAve); // Turn on the LED's
   }
-  
 }
