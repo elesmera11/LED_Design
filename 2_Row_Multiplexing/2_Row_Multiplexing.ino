@@ -1,14 +1,19 @@
 #include "pins.h"
 #include "distance_LEDs.h"
+#include "circBufT.h"
 
 // Constants
 #define ECHO_TIMEOUT 50000 //50ms
-#define ANA_HIGH 255
-#define BUFF_SIZE 5
+#define BUFF_SIZE 20
+
+static circBuf_t x_circ_buff;
+static circBuf_t y_circ_buff;
   
-void setup() {
+void setup() {  
   pinMode(TRIG_PIN_1, OUTPUT); // Sets the TRIG_PIN_ as an Output
   pinMode(ECHO_PIN_1, INPUT); // Sets the ECHO_PIN_ as an Input
+  pinMode(TRIG_PIN_2, OUTPUT); // Sets the TRIG_PIN_ as an Output
+  pinMode(ECHO_PIN_2, INPUT); // Sets the ECHO_PIN_ as an Input
   Serial.begin(115200); // Starts the serial communication
   
   pinMode(DIG_PIN_0, OUTPUT);
@@ -24,20 +29,19 @@ void setup() {
   pinMode(ANA_PIN_4, OUTPUT);
 }
 
-// Read the distance from the ultrasonic sensor
-// Note that sensor 1 is for x-distance, sensor 2 is for y-distance.
-int readDistance() {
+// Read the distance from the ultrasonic sensors
+int readDistance(int trig_pin, int echo_pin) {
   // Clears the trigPin
-  digitalWrite(TRIG_PIN_1, LOW);
+  digitalWrite(trig_pin, LOW);
   delay(10);
   
   // Sets the trigPin on HIGH state for 50 milli seconds
-  digitalWrite(TRIG_PIN_1, HIGH);
+  digitalWrite(trig_pin, HIGH);
   delay(20);
-  digitalWrite(TRIG_PIN_1, LOW);
+  digitalWrite(trig_pin, LOW);
   
   // Reads the echoPin, returns the sound wave travel time in microseconds
-  unsigned long duration = pulseIn(ECHO_PIN_1, HIGH, ECHO_TIMEOUT);
+  unsigned long duration = pulseIn(echo_pin, HIGH, ECHO_TIMEOUT);
   
   // Calculating the distance in cm
   float distance = duration*0.034/2;
@@ -45,38 +49,25 @@ int readDistance() {
 }
 
 // Reading 20 distance values, then take the average of the values read
-int calcDistanceAve () {
+int calcDistanceAve (int trig_pin, int echo_pin) {
   float distance;
-  float distanceSum;
-  float distanceAve;
-  float distanceBuffer[BUFF_SIZE];
+  float distanceSum = 0;
   
-  for (int i = 0; i < BUFF_SIZE; i++) {
-    distance = readDistance();
-    if (distance <= MAX_DISTANCE) { //remove outliers and/or noise
-      distanceBuffer[i] = distance;
-    } else {
-      distanceBuffer[i] = distanceBuffer[i-1]; //replace with close number for averaging
-    }
-  }
-  
-  for (int i = 0; i < BUFF_SIZE; i++) {
-    distanceSum += distanceBuffer[i];
-  }
-  distanceAve = distanceSum / BUFF_SIZE;
-  if (distanceAve > MAX_DISTANCE + 2 || distanceAve < MIN_DISTANCE - 2) {
-    distanceAve = 0; //if object out of range, reset to zero. 
-  }
+  distance = readDistance(trig_pin, echo_pin);
   Serial.print("Ave Distance: ");
-  Serial.println(round(distanceAve));
-  return distanceAve;
+  Serial.println(trig_pin);
+  Serial.println(round(distance));
+  return distance;
 }
 
 void loop() {
-  
-  int distanceAve = 0;
-  distanceAve = calcDistanceAve();
-  if (distanceAve != 0) {
-    LEDControl((int)distanceAve); // Turn on the LED's
-  }
+  initCircBuf(&x_circ_buff, BUFF_SIZE);
+  initCircBuf(&y_circ_buff, BUFF_SIZE);
+  int x_distanceAve = 0;
+  int y_distanceAve = 0;
+  x_distanceAve = calcDistanceAve(TRIG_PIN_1, ECHO_PIN_1);
+  y_distanceAve = calcDistanceAve(TRIG_PIN_2, ECHO_PIN_2);
+  //y_distanceAve = 1;
+
+  LEDControl(x_distanceAve, y_distanceAve); // Turn on the LEDs
 }

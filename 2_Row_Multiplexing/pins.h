@@ -13,6 +13,8 @@
 #define ANA_PIN_3 A3
 #define ANA_PIN_4 A4
 
+#define ANA_HIGH 255
+
 #define TRIG_PIN_1 8
 #define ECHO_PIN_1 9
 #define TRIG_PIN_2 10

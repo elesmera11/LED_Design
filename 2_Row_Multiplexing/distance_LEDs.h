@@ -1,12 +1,12 @@
 #ifndef DISTANCE_LEDS_H_
 #define DISTANCE_LEDS_H_
 
-#define MIN_DISTANCE 5
-#define DIST_1 10
-#define DIST_2 15
-#define DIST_3 20
-#define DIST_4 25
-#define MAX_DISTANCE 30
+#define MIN_DISTANCE 3
+#define DIST_1 6
+#define DIST_2 9
+#define DIST_3 12
+#define DIST_4 15
+#define MAX_DISTANCE 18
 
-void LEDControl(int x_distance);
+void LEDControl(int x_distance, int y_distance);
 #endif /*DISTANCE_LEDS_H_*/
