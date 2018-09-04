@@ -14,6 +14,7 @@
 #define ANA_PIN_4 A4
 
 #define ANA_HIGH 255
+#define BUFF_SIZE 20 //must be a multiple of 4.
 
 #define TRIG_PIN_1 8
 #define ECHO_PIN_1 9

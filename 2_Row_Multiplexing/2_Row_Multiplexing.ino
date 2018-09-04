@@ -4,7 +4,7 @@
 
 // Constants
 #define ECHO_TIMEOUT 50000 //50ms
-#define BUFF_SIZE 20
+
 
 static circBuf_t x_circ_buff;
 static circBuf_t y_circ_buff;
