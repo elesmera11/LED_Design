@@ -27,6 +27,9 @@ void setup() {
   pinMode(ANA_PIN_2, OUTPUT);
   pinMode(ANA_PIN_3, OUTPUT);
   pinMode(ANA_PIN_4, OUTPUT);
+  
+  initCircBuf(&x_circ_buff, BUFF_SIZE);
+  initCircBuf(&y_circ_buff, BUFF_SIZE);
 }
 
 // Read the distance from the ultrasonic sensors
@@ -51,7 +54,6 @@ int readDistance(int trig_pin, int echo_pin) {
 // Reading 20 distance values, then take the average of the values read
 int calcDistanceAve (int trig_pin, int echo_pin) {
   float distance;
-  float distanceSum = 0;
   
   distance = readDistance(trig_pin, echo_pin);
   Serial.print("Ave Distance: ");
@@ -61,13 +63,10 @@ int calcDistanceAve (int trig_pin, int echo_pin) {
 }
 
 void loop() {
-  initCircBuf(&x_circ_buff, BUFF_SIZE);
-  initCircBuf(&y_circ_buff, BUFF_SIZE);
-  int x_distanceAve = 0;
-  int y_distanceAve = 0;
-  x_distanceAve = calcDistanceAve(TRIG_PIN_1, ECHO_PIN_1);
-  y_distanceAve = calcDistanceAve(TRIG_PIN_2, ECHO_PIN_2);
-  //y_distanceAve = 1;
+  int x_distance = calcDistanceAve(TRIG_PIN_1, ECHO_PIN_1);
+  int y_distance = calcDistanceAve(TRIG_PIN_2, ECHO_PIN_2);
+  writeCircBuf(&x_circ_buff, x_distance);
+  writeCircBuf(&y_circ_buff, y_distance);
 
-  LEDControl(x_distanceAve, y_distanceAve); // Turn on the LEDs
+  LEDControl(&x_circ_buff, &y_circ_buff); // Turn on the LEDs
 }

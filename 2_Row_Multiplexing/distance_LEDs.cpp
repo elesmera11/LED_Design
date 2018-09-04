@@ -4,7 +4,9 @@
 
 // Turning on and off the LED's as a function of distance from the distance sensor
 // Analogue - active low. Digital - active high.
-void LEDControl(int x_distance, int y_distance) {
+void LEDControl(circBuf_t* x_buff, circBuf_t* y_buff) {
+  int x_distance = readCircBuf(x_buff);
+  int y_distance = readCircBuf(y_buff);
 	//TODO adjust for y distance too.
 	if (y_distance >= MIN_DISTANCE && y_distance < DIST_1) {
 	  analogWrite(ANA_PIN_0, ANA_HIGH);
