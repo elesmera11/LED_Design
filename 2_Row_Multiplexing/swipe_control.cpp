@@ -57,17 +57,33 @@ State determine_state(circBuf_t* x_buff, circBuf_t* y_buff) {
 	Serial.println(y_grad, 4);
 	
 	//determine state
-	if (abs(x_grad) > abs(y_grad)) {
-		if (x_grad > 0) {
-			state = R_Swipe;
+	if (x_grad) {//if x has gradient change
+		if (abs(x_grad) < abs(y_grad) && y_grad) {//if y also does, choose lowest grad
+			if (y_grad > 0) {
+				state = U_Swipe;
+			} else {
+				state = D_Swipe;
+			}
 		} else {
-			state = L_Swipe;
+			if (x_grad > 0) {
+				state = R_Swipe;
+			} else {
+				state = L_Swipe;
+			}
 		}
-	} else if (abs(y_grad) > abs(x_grad)) {
-		if (y_grad > 0) {
-			state = U_Swipe;
+	} else if (y_grad) {
+		if (abs(y_grad) < abs(x_grad) && x_grad) {
+			if (x_grad > 0) {
+				state = R_Swipe;
+			} else {
+				state = L_Swipe;
+			}
 		} else {
-			state = D_Swipe;
+			if (y_grad > 0) {
+				state = U_Swipe;
+			} else {
+				state = D_Swipe;
+			}
 		}
 	}
 	

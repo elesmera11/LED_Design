@@ -33,7 +33,7 @@ float simpLinReg(float* x, float* y, int n){
   
   // simple linear regression algorithm
   lrCoef=(xybar-xbar*ybar)/(xsqbar-xbar*xbar);
-	if (n == 0) {
+	if (n == 1 || n == 0) {
 		lrCoef = 0;
 	}
 	return lrCoef;
