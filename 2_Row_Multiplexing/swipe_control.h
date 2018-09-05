@@ -18,7 +18,10 @@ Date: 03 Sep 2018
 
 enum State{Waiting, L_Swipe, R_Swipe, U_Swipe, D_Swipe}; //swipe states
 
-//Determines the state by looking at BUffer in quadrants
-State determine_state(circBuf_t* x_buff, circBuf_t* y_buff);
+//Determines the state dependent on distance gradients.
+State determine_state(float x_grad, float y_grad);
+
+//Process the buffers so that the gesture state can be determined.
+State process_buffs(circBuf_t* x_buff, circBuf_t* y_buff);
 
 #endif /*SWIPE_CONTROL_H_*/

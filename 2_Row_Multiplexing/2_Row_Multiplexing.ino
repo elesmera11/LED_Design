@@ -75,7 +75,7 @@ void loop() {
   LEDControl(x_distance, y_distance); // Turn on the LEDs
   State state = Waiting;
   if (counter == BUFF_SIZE-1) {
-    state = determine_state(&x_circ_buff, &y_circ_buff);
+    state = process_buffs(&x_circ_buff, &y_circ_buff);
     switch(state) {
       case 0: Serial.print("WAITING\n"); break;
       case 1: Serial.print("LEFT\n"); break;

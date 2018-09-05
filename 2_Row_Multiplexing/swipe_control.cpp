@@ -10,13 +10,47 @@ Date: 05 Sep 2018
 
 #include "swipe_control.h"
 
-//Determines the state by looking at BUffer in quadrants
-State determine_state(circBuf_t* x_buff, circBuf_t* y_buff) {
+//Determines the state dependent on distance gradients.
+State determine_state(float x_grad, float y_grad) {
+	State state = Waiting;
+	if (x_grad) {//if x has gradient change
+		if (abs(x_grad) < abs(y_grad) && y_grad) {//if y also does, choose lowest grad
+			if (y_grad > 0) {
+				state = U_Swipe;
+			} else {
+				state = D_Swipe;
+			}
+		} else {
+			if (x_grad > 0) {
+				state = R_Swipe;
+			} else {
+				state = L_Swipe;
+			}
+		}
+	} else if (y_grad) {
+		if (abs(y_grad) < abs(x_grad) && x_grad) {
+			if (x_grad > 0) {
+				state = R_Swipe;
+			} else {
+				state = L_Swipe;
+			}
+		} else {
+			if (y_grad > 0) {
+				state = U_Swipe;
+			} else {
+				state = D_Swipe;
+			}
+		}
+	}
+	return state;
+}
+
+//Process the buffers so that the gesture state can be determined.
+State process_buffs(circBuf_t* x_buff, circBuf_t* y_buff) {
 	//local variables
 	float x_temp[BUFF_SIZE] = {0};
 	float y_temp[BUFF_SIZE] = {0};
 	float t_temp[BUFF_SIZE] = {0};	
-	State state = Waiting;
 	int size = 0;
 	int x_time = 1;
 	int y_time = 1;
@@ -61,41 +95,11 @@ State determine_state(circBuf_t* x_buff, circBuf_t* y_buff) {
 	//use linear regression to determine gradient of swipe
 	float x_grad = simpLinReg(x_t, x, sizeof(x_t)/sizeof(float));
 	float y_grad = simpLinReg(y_t, y, sizeof(y_t)/sizeof(float));
-	Serial.print("X: ");
-	Serial.println(x_grad, 4);
-	Serial.print("Y: ");
-	Serial.println(y_grad, 4);
+	// Serial.print("X: ");
+	// Serial.println(x_grad, 4);
+	// Serial.print("Y: ");
+	// Serial.println(y_grad, 4);
 	
-	//determine state
-	if (x_grad) {//if x has gradient change
-		if (abs(x_grad) < abs(y_grad) && y_grad) {//if y also does, choose lowest grad
-			if (y_grad > 0) {
-				state = U_Swipe;
-			} else {
-				state = D_Swipe;
-			}
-		} else {
-			if (x_grad > 0) {
-				state = R_Swipe;
-			} else {
-				state = L_Swipe;
-			}
-		}
-	} else if (y_grad) {
-		if (abs(y_grad) < abs(x_grad) && x_grad) {
-			if (x_grad > 0) {
-				state = R_Swipe;
-			} else {
-				state = L_Swipe;
-			}
-		} else {
-			if (y_grad > 0) {
-				state = U_Swipe;
-			} else {
-				state = D_Swipe;
-			}
-		}
-	}
-	
+	State state = determine_state(x_grad, y_grad);	
 	return state;
 }			
