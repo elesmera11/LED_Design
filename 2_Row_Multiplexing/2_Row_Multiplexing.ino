@@ -1,3 +1,11 @@
+/*
+2_Row_Multiplexing.ino
+
+The main code for the gesture-controlled LED matrix
+Authors: Kate Chamberlin, Scott Davidsen, Fergus Duggan.
+Date: 27 Aug 2018
+*/
+
 #include "pins.h"
 #include "distance_LEDs.h"
 #include "circBufT.h"
@@ -9,8 +17,9 @@
 
 static circBuf_t x_circ_buff;
 static circBuf_t y_circ_buff;
-uint8_t counter = 0;
-  
+uint8_t counter = 0; //global to trigger determination of state when buffs full.
+
+//Initialise al pins, buffers and serial output.
 void setup() {  
   pinMode(TRIG_PIN_1, OUTPUT); // Sets the TRIG_PIN_ as an Output
   pinMode(ECHO_PIN_1, INPUT); // Sets the ECHO_PIN_ as an Input
@@ -48,9 +57,10 @@ int readDistance(int trig_pin, int echo_pin) {
   // Reads the echoPin, returns the sound wave travel time in microseconds
   unsigned long duration = pulseIn(echo_pin, HIGH, ECHO_TIMEOUT);
   
-  // Calculating the distance in cm
+  // Calculating the distance in cm using speed of sound
   float distance = duration*0.034/2;
-  if (distance > MAX_DISTANCE) {
+  // If out of bounds, reset
+  if (distance > MAX_DISTANCE) { 
     distance = 0;
   }
   return distance;

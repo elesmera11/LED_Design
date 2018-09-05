@@ -1,7 +1,16 @@
+/*
+distance_LEDs.h
+
+Functions for controlling the LEDs, max/min distances, 
+and spacial sectioning.
+Authors: Kate Chamberlin, Scott Davidsen, Fergus Duggan.
+Date: 03 Sep 2018
+*/
 #ifndef DISTANCE_LEDS_H_
 #define DISTANCE_LEDS_H_
 
-#include "circBufT.h"
+#include "pins.h"
+#include "Arduino.h"
 
 #define MIN_DISTANCE 3
 #define DIST_1 6

@@ -1,6 +1,12 @@
+/*
+distance_LEDs.cpp
+
+Module for controlling the LEDs on the device.
+Authors: Kate Chamberlin, Scott Davidsen, Fergus Duggan.
+Date: 03 Sep 2018
+*/
+
 #include "distance_LEDs.h"
-#include "pins.h"
-#include "Arduino.h"
 
 // Turning on and off the LED's as a function of distance from the distance sensor
 // Analogue - active low. Digital - active high.

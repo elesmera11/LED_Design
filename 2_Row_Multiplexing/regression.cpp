@@ -1,7 +1,10 @@
 /*
+regression.cpp
+
 Linear regression code provided by John Brooks - Smarter Every Day
 http://jwbrooks.blogspot.com/2014/02/arduino-linear-regression-function.html
 Edited by Kate Chamberlin, Scott Davidsen, Fergus Duggan.
+Date: 05 Sep 2018
 */
 
 
@@ -33,7 +36,7 @@ float simpLinReg(float* x, float* y, int n){
   
   // simple linear regression algorithm
   lrCoef=(xybar-xbar*ybar)/(xsqbar-xbar*xbar);
-	if (n == 1 || n == 0) {
+	if (n == 1 || n == 0) { //if the arrays aren't big enough for a regression set to 0.
 		lrCoef = 0;
 	}
 	return lrCoef;

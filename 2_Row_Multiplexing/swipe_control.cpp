@@ -1,3 +1,13 @@
+/*
+swipe_control.cpp
+
+Module for determining the swipe state of the device.
+Depending on buffer data, will determine if device is waiting or
+swiping left, right, up, or down.
+Authors: Kate Chamberlin, Scott Davidsen, Fergus Duggan.
+Date: 05 Sep 2018
+*/
+
 #include "swipe_control.h"
 
 //Determines the state by looking at BUffer in quadrants

@@ -4,7 +4,9 @@
 //
 // Support for a circular buffer of uint32_t values on the 
 //  Tiva processor.
-// Robert Loomes, Kate Chamberlin, Josh Lowe
+// Used with permission for Arduino LED display project
+// Editors: Robert Loomes, Kate Chamberlin, Josh Lowe
+// Original code by University of Canterbury.
 // Last modified:  3.6.2018
 // 
 // *******************************************************

@@ -1,3 +1,12 @@
+/*
+swipe_control.h
+
+Module for determining the gesture state of the device.
+Enum of state included.
+Authors: Kate Chamberlin, Scott Davidsen, Fergus Duggan.
+Date: 03 Sep 2018
+*/
+
 #ifndef SWIPE_CONTROL_H_
 #define SWIPE_CONTROL_H_
 
@@ -5,7 +14,6 @@
 #include "pins.h"
 #include "circBufT.h"
 #include "regression.h"
-#include "distance_LEDs.h"
 
 
 enum State{Waiting, L_Swipe, R_Swipe, U_Swipe, D_Swipe}; //swipe states
