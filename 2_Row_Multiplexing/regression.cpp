@@ -21,12 +21,10 @@ float simpLinReg(float* x, float* y, int n){
   
   // calculations required for linear regression
   for (int i=0; i<n; i++){
-		if (y[i] != 0) {
-			xbar=xbar+x[i];
-			ybar=ybar+y[i];
-			xybar=xybar+x[i]*y[i];
-			xsqbar=xsqbar+x[i]*x[i];
-		}
+    xbar=xbar+x[i];
+    ybar=ybar+y[i];
+    xybar=xybar+x[i]*y[i];
+    xsqbar=xsqbar+x[i]*x[i];
   }
   xbar=xbar/n;
   ybar=ybar/n;
@@ -35,5 +33,8 @@ float simpLinReg(float* x, float* y, int n){
   
   // simple linear regression algorithm
   lrCoef=(xybar-xbar*ybar)/(xsqbar-xbar*xbar);
+	if (n == 0) {
+		lrCoef = 0;
+	}
 	return lrCoef;
 }
