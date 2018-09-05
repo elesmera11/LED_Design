@@ -1,6 +1,7 @@
 #include "pins.h"
 #include "distance_LEDs.h"
 #include "circBufT.h"
+#include "swipe_control.h"
 
 // Constants
 #define ECHO_TIMEOUT 50000 //50ms
@@ -8,6 +9,7 @@
 
 static circBuf_t x_circ_buff;
 static circBuf_t y_circ_buff;
+uint8_t counter = 0;
   
 void setup() {  
   pinMode(TRIG_PIN_1, OUTPUT); // Sets the TRIG_PIN_ as an Output
@@ -48,25 +50,29 @@ int readDistance(int trig_pin, int echo_pin) {
   
   // Calculating the distance in cm
   float distance = duration*0.034/2;
-  return distance;
-}
-
-// Reading 20 distance values, then take the average of the values read
-int calcDistanceAve (int trig_pin, int echo_pin) {
-  float distance;
-  
-  distance = readDistance(trig_pin, echo_pin);
-  Serial.print("Ave Distance: ");
-  Serial.println(trig_pin);
-  Serial.println(round(distance));
+  if (distance > MAX_DISTANCE) {
+    distance = 0;
+  }
   return distance;
 }
 
 void loop() {
-  int x_distance = calcDistanceAve(TRIG_PIN_1, ECHO_PIN_1);
-  int y_distance = calcDistanceAve(TRIG_PIN_2, ECHO_PIN_2);
+  counter++;
+  int x_distance = readDistance(TRIG_PIN_1, ECHO_PIN_1);
+  int y_distance = readDistance(TRIG_PIN_2, ECHO_PIN_2);
   writeCircBuf(&x_circ_buff, x_distance);
   writeCircBuf(&y_circ_buff, y_distance);
-
-  LEDControl(&x_circ_buff, &y_circ_buff); // Turn on the LEDs
+  LEDControl(x_distance, y_distance); // Turn on the LEDs
+  State state = Waiting;
+  if (counter == BUFF_SIZE-1) {
+    state = determine_state(&x_circ_buff, &y_circ_buff);
+    switch(state) {
+      case 0: Serial.print("WAITING\n"); break;
+      case 1: Serial.print("LEFT\n"); break;
+      case 2: Serial.print("RIGHT\n"); break;
+      case 3: Serial.print("UP\n"); break;
+      case 4: Serial.print("DOWN\n"); break;
+    }
+    counter = 0; //reset counter
+  }
 }

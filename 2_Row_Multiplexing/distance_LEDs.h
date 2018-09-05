@@ -10,5 +10,5 @@
 #define DIST_4 15
 #define MAX_DISTANCE 18
 
-void LEDControl(circBuf_t* x_buff, circBuf_t* y_buff);
+void LEDControl(int x_distance, int y_distance);
 #endif /*DISTANCE_LEDS_H_*/

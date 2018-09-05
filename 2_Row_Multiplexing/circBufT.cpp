@@ -44,7 +44,7 @@ writeCircBuf (circBuf_t *buffer, uint32_t entry)
 
 // *******************************************************
 // readCircBuf: return entry at the current rindex location,
-// advance rindex, modulo (buffer size). The function deos not check
+// advance rindex, modulo (buffer size). The function does not check
 // if reading has advanced ahead of writing.
 uint32_t
 readCircBuf (circBuf_t *buffer)
