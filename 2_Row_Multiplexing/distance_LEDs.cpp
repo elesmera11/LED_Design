@@ -8,6 +8,29 @@ Date: 03 Sep 2018
 
 #include "distance_LEDs.h"
 
+// Read the distance from the ultrasonic sensors
+int readDistance(int trig_pin, int echo_pin) {
+  // Clears the trigPin
+  digitalWrite(trig_pin, LOW);
+  delay(10);
+  
+  // Sets the trigPin on HIGH state for 50 milli seconds
+  digitalWrite(trig_pin, HIGH);
+  delay(20);
+  digitalWrite(trig_pin, LOW);
+  
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  unsigned long duration = pulseIn(echo_pin, HIGH, ECHO_TIMEOUT);
+  
+  // Calculating the distance in cm using speed of sound
+  float distance = duration*0.034/2;
+  // If out of bounds, reset
+  if (distance > MAX_DISTANCE) { 
+    distance = 0;
+  }
+  return distance;
+}
+
 // Turning on and off the LED's as a function of distance from the distance sensor
 // Analogue - active low. Digital - active high.
 void LEDControl(int x_distance, int y_distance) {

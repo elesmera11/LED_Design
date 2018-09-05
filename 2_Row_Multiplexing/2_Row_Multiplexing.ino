@@ -11,9 +11,6 @@ Date: 27 Aug 2018
 #include "circBufT.h"
 #include "swipe_control.h"
 
-// Constants
-#define ECHO_TIMEOUT 50000 //50ms
-
 
 static circBuf_t x_circ_buff;
 static circBuf_t y_circ_buff;
@@ -41,29 +38,6 @@ void setup() {
   
   initCircBuf(&x_circ_buff, BUFF_SIZE);
   initCircBuf(&y_circ_buff, BUFF_SIZE);
-}
-
-// Read the distance from the ultrasonic sensors
-int readDistance(int trig_pin, int echo_pin) {
-  // Clears the trigPin
-  digitalWrite(trig_pin, LOW);
-  delay(10);
-  
-  // Sets the trigPin on HIGH state for 50 milli seconds
-  digitalWrite(trig_pin, HIGH);
-  delay(20);
-  digitalWrite(trig_pin, LOW);
-  
-  // Reads the echoPin, returns the sound wave travel time in microseconds
-  unsigned long duration = pulseIn(echo_pin, HIGH, ECHO_TIMEOUT);
-  
-  // Calculating the distance in cm using speed of sound
-  float distance = duration*0.034/2;
-  // If out of bounds, reset
-  if (distance > MAX_DISTANCE) { 
-    distance = 0;
-  }
-  return distance;
 }
 
 void loop() {
