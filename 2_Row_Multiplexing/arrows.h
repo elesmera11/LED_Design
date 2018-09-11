@@ -14,5 +14,5 @@
 #define UP_10 {{0, 1, 1, 1, 0},{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}
 
 //define the sequence order and size.
-#define SERIES {UP_1, UP_2, UP_3,	UP_4,	UP_5, UP_6, UP_7, UP_8, UP_9,	UP_10}
+#define SERIES {UP_1, UP_2, UP_3, UP_4, UP_5, UP_6, UP_7, UP_8, UP_9, UP_10}
 #define SERIES_SIZE 10
