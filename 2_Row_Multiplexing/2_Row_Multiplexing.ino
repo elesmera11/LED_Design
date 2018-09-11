@@ -15,6 +15,8 @@ Date: 27 Aug 2018
 static circBuf_t x_circ_buff;
 static circBuf_t y_circ_buff;
 uint8_t counter = 0; //global to trigger determination of state when buffs full.
+//bool down[MATRIX_SIZE][MATRIX_SIZE] = DOWN_1;
+//bool series[SERIES_SIZE][MATRIX_SIZE][MATRIX_SIZE] = SERIES;
 
 //Initialise al pins, buffers and serial output.
 void setup() {  
@@ -41,7 +43,9 @@ void setup() {
 }
 
 void loop() {
-  counter++;
+//  for (int row = 0; row < MATRIX_SIZE; row++) {
+//    update_row(ANA_PIN_0 + row, down[row]);
+//  }
   int x_distance = readDistance(TRIG_PIN_1, ECHO_PIN_1);
   int y_distance = readDistance(TRIG_PIN_2, ECHO_PIN_2);
   writeCircBuf(&x_circ_buff, x_distance);
@@ -59,4 +63,5 @@ void loop() {
     }
     counter = 0; //reset counter
   }
+  counter++;
 }

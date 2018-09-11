@@ -16,6 +16,8 @@ Date: 03 Sep 2018
 #define DIG_PIN_2 4
 #define DIG_PIN_3 5
 #define DIG_PIN_4 6
+#define MIN_PIN DIG_PIN_0
+#define MAX_PIN DIG_PIN_4
 
 //analogue pins
 #define ANA_PIN_0 A0
